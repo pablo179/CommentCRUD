@@ -34,7 +34,10 @@ export const deleteComment = async (req, res) => {
     return res.status(status.BAD_REQUEST).send("Comment ID is required");
   }
   try {
-    await pool.query("DELETE FROM Comments WHERE id = ?", [id]);
+    const result = await pool.query("DELETE FROM Comments WHERE id = ?", [id]);
+    if(result[0].affectedRows === 0) {
+      return res.status(status.NOT_FOUND).send("Comment not found");
+    }
     res.status(status.OK).json("Comment deleted successfully");
   } catch (err) {
     res.status(status.INTERNAL_SERVER_ERROR).send(err);
@@ -50,11 +53,14 @@ export const updateComment = async (req, res) => {
       .send("ID, Email and Comment are required");
   }
   try {
-    await pool.query("UPDATE Comments SET email = ?, comment = ? WHERE id = ?", [
+    const result = await pool.query("UPDATE Comments SET email = ?, comment = ? WHERE id = ?", [
       email,
       comment,
       id,
     ]);
+    if(result[0].affectedRows === 0) {
+      return res.status(status.NOT_FOUND).send("Comment not found");
+    }
     res.status(status.OK).json("Comment updated successfully");
   } catch (err) {
     res.status(status.INTERNAL_SERVER_ERROR).send(err);
