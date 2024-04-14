@@ -25,6 +25,11 @@ Ths is a Comment section made with React (Nextjs). It allows users to CRUD comme
 1. Run `npm run start` in the root folder
 2. Go to `http://localhost:3000` in your browser
 
+## How to run the tests
+- Run `npm run test` in the client folder
+- Run `npm run test` in the server folder
+- Run `npm run test` in the root folder
+
 ## About the project
 
 ### Client
